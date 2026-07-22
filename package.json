@@ -11,7 +11,8 @@
     "build": "npm run build --workspaces --if-present",
     "lint": "node scripts/lint-scaffold.mjs",
     "test": "node --test",
-    "format": "node scripts/check-format.mjs"
+    "format": "node scripts/check-format.mjs",
+    "dev": "npm run dev --workspace @smart-home/frontend"
   },
   "engines": {
     "node": ">=20"

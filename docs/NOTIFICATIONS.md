@@ -14,15 +14,20 @@ Notifications are user-visible records derived from device events. They must alw
 
 The MVP creates notifications from these device events:
 
+### Common Device Events
+
+- `status_changed`: create a `warning` notification when a device goes offline.
+
 ### Light Events
 
 - `power_changed`: create an `info` notification when a light turns on or off.
+- `brightness_changed`: create an `info` notification when light brightness changes.
 
 ### Heater Events
 
 - `power_changed`: create an `info` notification when a heater turns on or off.
 - `target_temperature_changed`: create an `info` notification when the heater target temperature changes.
-- `temperature_changed`: create a `warning` notification only when simulator behavior indicates the current temperature moved away from the target by an implementation-defined MVP threshold.
+- `temperature_changed`: create a `warning` notification only when simulator behavior indicates the current temperature moved away from the target by an implementation-defined MVP threshold. The backend MVP threshold is more than 2°C from the target temperature.
 
 ### Door Lock Events
 

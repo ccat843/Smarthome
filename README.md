@@ -1,6 +1,6 @@
 # Modular Smart Home MVP
 
-This repository defines the source-of-truth documentation for a modular, multi-tenant smart home MVP. The MVP models exactly two homes managed by one admin and used by two homeowners. It supports three device types: lights, heaters, and door locks.
+This repository contains a small, demo-ready smart home MVP. It models exactly two homes managed by one admin and used by two homeowners. It supports three device types: lights, heaters, and door locks.
 
 ## MVP Goal
 
@@ -9,35 +9,86 @@ Build a small but complete smart home platform that demonstrates:
 - Strict home-level access control so homeowners never see another home's data.
 - A common capability-based interface for all devices.
 - Modular device behavior that can be extended without rewriting core app flows.
-- Notifications tied to homes, devices, and device events.
+- Device actions that create home- and device-scoped events.
+- Notifications and preferences tied to homes, devices, events, and users.
 - A simulator-driven implementation path before real device integration.
 
-## What the System Demonstrates
+## What Is Included
 
-The MVP is intended to prove the architecture, data model, API contracts, and device behavior for a smart home platform. It is not intended to be a production IoT system yet. Future implementation tasks must treat the files in `docs/` as the canonical specification and avoid inventing features outside the MVP scope.
+- Plain JavaScript npm workspace using Node's built-in test runner.
+- In-memory backend app with auth, homes, rooms, devices, device actions, events, notifications, and notification preferences.
+- Frontend dashboard for the MVP login, admin, and homeowner flows.
+- Demo frontend server that serves the static UI and routes API calls to the in-memory backend.
+- SQLite schema and seed files that mirror the documented MVP data model.
+
+## Local Demo
+
+Requirements:
+
+- Node.js 20 or newer.
+- npm.
+- `sqlite3` CLI for database schema tests.
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the demo UI:
+
+```bash
+npm run dev
+```
+
+Open <http://localhost:5173>. The demo server keeps data in memory, so restarting it resets homes, devices, events, notifications, and preferences to the MVP seed state.
+
+Demo users:
+
+| Role | Email | Password | Access |
+| --- | --- | --- | --- |
+| Admin | `admin@smarthome.local` | `admin-password` | Home 1 and Home 2 |
+| Homeowner 1 | `homeowner1@smarthome.local` | `homeowner1-password` | Home 1 only |
+| Homeowner 2 | `homeowner2@smarthome.local` | `homeowner2-password` | Home 2 only |
+
+## Verification Commands
+
+```bash
+npm run build
+npm run lint
+npm run format
+npm test
+```
 
 ## Documentation Map
 
-Read the documentation in this order before making implementation changes:
+Before changing application behavior, read the documentation in this order:
 
-1. `docs/CODEX_RULES.md`
-2. `docs/PROJECT_BRIEF.md`
-3. `docs/MVP_SCOPE.md`
-4. `docs/ARCHITECTURE.md`
-5. `docs/DATA_MODEL.md`
-6. `docs/DEVICE_CAPABILITIES.md`
-7. `docs/API_CONTRACTS.md`
-8. `docs/NOTIFICATIONS.md`
-9. `docs/ROADMAP.md`
+1. `README.md`
+2. `docs/CODEX_RULES.md`
+3. `docs/PROJECT_BRIEF.md`
+4. `docs/MVP_SCOPE.md`
+5. `docs/ARCHITECTURE.md`
+6. `docs/DATA_MODEL.md`
+7. `docs/DEVICE_CAPABILITIES.md`
+8. `docs/API_CONTRACTS.md`
+9. `docs/NOTIFICATIONS.md`
+10. `docs/ROADMAP.md`
+
+The files in `docs/` are the source of truth for MVP scope, roles, access control, data model, API contracts, device behavior, and notification behavior.
 
 ## Repository Organization
 
-This scaffold uses a minimal JavaScript workspace layout so frontend, backend, and shared code can evolve independently while following the MVP documentation.
+- `apps/frontend/`: frontend dashboard and local demo server.
+- `apps/backend/`: in-memory backend app, auth guards, repositories, device abstraction, simulator, events, and notifications.
+- `packages/shared/`: shared package boundary for cross-app types/utilities as the MVP grows.
+- `database/`: SQLite schema and seed data for the documented data model.
+- `test/`: Node test suites for auth, access control, API flows, device actions, notifications, frontend rendering helpers, and database constraints.
+- `docs/`: source-of-truth MVP documentation.
 
-- `apps/frontend/`: placeholder frontend app boundary. UI screens are intentionally not implemented yet.
-- `apps/backend/`: placeholder backend app boundary. API logic is intentionally not implemented yet.
-- `packages/shared/`: placeholder shared package for future cross-app types and common utilities.
-- `test/`: minimal scaffold checks.
-- `docs/`: source-of-truth MVP documentation that must be read before implementation work.
+## Remaining MVP Limitations
 
-The initial stack is plain JavaScript with npm workspaces and Node's built-in test runner. Lightweight local lint and format checks avoid external dependencies until the MVP implementation phases require them.
+- The demo backend is in-memory; it resets on restart.
+- The simulator replaces real IoT hardware/MQTT integrations.
+- Notification delivery is record-only; there is no email, SMS, or push provider.
+- The frontend is intentionally lightweight and framework-free for the MVP.

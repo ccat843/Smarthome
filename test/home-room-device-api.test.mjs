@@ -55,9 +55,9 @@ describe("home, room, and device management API", () => {
     assert.equal(response.body.device.id, "device_7");
     assert.equal(response.body.device.deviceTypeKey, "light");
     assert.deepEqual(response.body.device.capabilities, [
-      { key: "power", actions: ["turn_on", "turn_off"], state_fields: ["power"] },
+      { key: "power", actions: ["turn_on", "turn_off", "set_brightness"], state_fields: ["power", "brightness"] },
     ]);
-    assert.deepEqual(response.body.device.state, { power: "off" });
+    assert.deepEqual(response.body.device.state, { power: "off", brightness: 0 });
   });
 
   it("lists devices by home and never includes another home's devices", () => {
