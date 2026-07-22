@@ -1,0 +1,19 @@
+{
+  "name": "smart-home-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Modular smart home MVP scaffold based on the source-of-truth documentation in docs/.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "lint": "node scripts/lint-scaffold.mjs",
+    "test": "node --test",
+    "format": "node scripts/check-format.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
