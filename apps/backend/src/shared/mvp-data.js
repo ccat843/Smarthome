@@ -61,8 +61,14 @@ export const mvpDeviceTypes = [
     id: "device_type_light",
     key: "light",
     name: "Light",
-    capabilities: [{ key: "power", actions: ["turn_on", "turn_off"], state_fields: ["power"] }],
-    defaultState: { power: "off" },
+    capabilities: [
+      {
+        key: "power",
+        actions: ["turn_on", "turn_off", "set_brightness"],
+        state_fields: ["power", "brightness"],
+      },
+    ],
+    defaultState: { power: "off", brightness: 0 },
   },
   {
     id: "device_type_heater",
@@ -93,7 +99,7 @@ export const mvpDevices = [
     roomId: "room_home_1_living",
     deviceTypeId: "device_type_light",
     name: "Living Room Light",
-    state: { power: "on" },
+    state: { power: "on", brightness: 100 },
     status: "online",
   },
   {
@@ -120,7 +126,7 @@ export const mvpDevices = [
     roomId: "room_home_2_living",
     deviceTypeId: "device_type_light",
     name: "Living Room Light",
-    state: { power: "off" },
+    state: { power: "off", brightness: 0 },
     status: "online",
   },
   {
@@ -155,6 +161,16 @@ export function createMvpStore() {
     rooms: clone(mvpRooms),
     deviceTypes: clone(mvpDeviceTypes),
     devices: clone(mvpDevices),
-    counters: { homes: 2, rooms: 6, devices: 6 },
+    deviceEvents: [],
+    notifications: [],
+    notificationPreferences: [],
+    counters: {
+      homes: 2,
+      rooms: 6,
+      devices: 6,
+      deviceEvents: 0,
+      notifications: 0,
+      notificationPreferences: 0,
+    },
   };
 }

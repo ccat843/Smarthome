@@ -38,15 +38,18 @@ Action execution must follow this sequence:
 State fields:
 
 - `power`: `on` or `off`.
+- `brightness`: number from 0 to 100 for lights.
 
 Actions:
 
 - `turn_on`: sets `power` to `on`.
 - `turn_off`: sets `power` to `off`.
+- `set_brightness`: requires `brightness` number from 0 to 100.
 
 Events:
 
 - `power_changed` when `power` changes.
+- `brightness_changed` when `brightness` changes.
 
 ### `temperature_control`
 
@@ -97,7 +100,8 @@ Initial state example:
 
 ```json
 {
-  "power": "off"
+  "power": "off",
+  "brightness": 0
 }
 ```
 
@@ -105,10 +109,12 @@ Supported actions:
 
 - `turn_on`
 - `turn_off`
+- `set_brightness`
 
 Notification-relevant events:
 
 - `power_changed`
+- `brightness_changed`
 
 ### Heater
 

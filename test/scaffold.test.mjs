@@ -23,7 +23,7 @@ const requiredPaths = [
 ];
 
 describe("project scaffold", () => {
-  it("contains the MVP placeholder module folders", () => {
+  it("contains the MVP module folders", () => {
     for (const path of requiredPaths) {
       assert.equal(existsSync(path), true, `${path} should exist`);
     }

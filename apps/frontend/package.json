@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/main.js",
   "scripts": {
-    "build": "node -e \"import('./src/main.js')\""
+    "build": "node -e \"import('./src/main.js')\"",
+    "dev": "node dev-server.mjs"
   },
   "dependencies": {
     "@smart-home/shared": "0.1.0"

@@ -25,12 +25,22 @@ const requiredFiles = [
   "apps/backend/src/homes/repository.js",
   "apps/backend/src/rooms/repository.js",
   "apps/backend/src/devices/repository.js",
+  "apps/backend/src/device-capabilities/actions.js",
+  "apps/backend/src/device-events/repository.js",
+  "apps/backend/src/devices/actions.js",
+  "apps/backend/src/notifications/repository.js",
+  "apps/backend/src/simulator/service.js",
+  "apps/frontend/dev-server.mjs",
   "apps/backend/src/shared/errors.js",
   "apps/backend/src/shared/http.js",
   "apps/backend/src/shared/mvp-data.js",
   "apps/backend/src/shared/validation.js",
   "test/auth-access.test.mjs",
   "test/home-room-device-api.test.mjs",
+  "test/device-actions-simulator.test.mjs",
+  "test/notifications-api.test.mjs",
+  "test/frontend-dashboard.test.mjs",
+  "test/end-to-end-mvp-flow.test.mjs",
 ];
 
 for (const file of requiredFiles) {

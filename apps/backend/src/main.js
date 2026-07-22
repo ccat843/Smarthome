@@ -7,7 +7,15 @@ import {
   updateHome,
 } from "./homes/repository.js";
 import { createRoom, deleteRoom, getRoom, listRooms, updateRoom } from "./rooms/repository.js";
+import { listDeviceEvents, listEventsForDevice } from "./device-events/repository.js";
+import { executeDeviceAction } from "./devices/actions.js";
 import { getDevice, listDevices, registerDevice, removeDevice, updateDevice } from "./devices/repository.js";
+import {
+  listNotificationPreferences,
+  listNotifications,
+  replaceNotificationPreferences,
+  updateNotificationReadState,
+} from "./notifications/repository.js";
 import { errorResponse, jsonResponse } from "./shared/http.js";
 import { createMvpStore } from "./shared/mvp-data.js";
 
@@ -97,6 +105,70 @@ export function createBackendApp({ tokenSecret, store = createMvpStore() }) {
           if (request.method === "POST") {
             return jsonResponse(201, {
               device: registerDevice(store, currentUser, homeId, request.body ?? {}),
+            });
+          }
+        }
+
+        const eventsMatch = request.path.match(/^\/homes\/([^/]+)\/events$/);
+        if (eventsMatch) {
+          const [, homeId] = eventsMatch;
+          if (request.method === "GET") {
+            return jsonResponse(200, { events: listDeviceEvents(store, currentUser, homeId, request.query) });
+          }
+        }
+
+        const deviceActionsMatch = request.path.match(/^\/homes\/([^/]+)\/devices\/([^/]+)\/actions$/);
+        if (deviceActionsMatch) {
+          const [, homeId, deviceId] = deviceActionsMatch;
+          if (request.method === "POST") {
+            return jsonResponse(200, executeDeviceAction(store, currentUser, homeId, deviceId, request.body ?? {}));
+          }
+        }
+
+        const deviceEventsMatch = request.path.match(/^\/homes\/([^/]+)\/devices\/([^/]+)\/events$/);
+        if (deviceEventsMatch) {
+          const [, homeId, deviceId] = deviceEventsMatch;
+          if (request.method === "GET") {
+            return jsonResponse(200, { events: listEventsForDevice(store, currentUser, homeId, deviceId) });
+          }
+        }
+
+
+        const notificationsMatch = request.path.match(/^\/homes\/([^/]+)\/notifications$/);
+        if (notificationsMatch) {
+          const [, homeId] = notificationsMatch;
+          if (request.method === "GET") {
+            return jsonResponse(200, { notifications: listNotifications(store, currentUser, homeId) });
+          }
+        }
+
+        const notificationMatch = request.path.match(/^\/homes\/([^/]+)\/notifications\/([^/]+)$/);
+        if (notificationMatch) {
+          const [, homeId, notificationId] = notificationMatch;
+          if (request.method === "PATCH") {
+            return jsonResponse(200, {
+              notification: updateNotificationReadState(
+                store,
+                currentUser,
+                homeId,
+                notificationId,
+                request.body ?? {},
+              ),
+            });
+          }
+        }
+
+        const preferencesMatch = request.path.match(/^\/homes\/([^/]+)\/notification-preferences$/);
+        if (preferencesMatch) {
+          const [, homeId] = preferencesMatch;
+          if (request.method === "GET") {
+            return jsonResponse(200, {
+              preferences: listNotificationPreferences(store, currentUser, homeId),
+            });
+          }
+          if (request.method === "PUT") {
+            return jsonResponse(200, {
+              preferences: replaceNotificationPreferences(store, currentUser, homeId, request.body ?? {}),
             });
           }
         }
